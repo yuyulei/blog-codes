@@ -1,0 +1,56 @@
+# konga 是目前世面上能找到的免费的 kong webui, 提供了一些编辑的功能, 但是强烈反对个人在上面编辑. 因为在 K8s 上
+# 的 kong 没有依赖数据库, 导致 kong 似乎不支持删除接口的调用.
+# konga 也支持 https 的访问, 可以通过环境变量配置, 详见: https://github.com/pantsel/konga#environment-variables
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: konga
+  name: konga
+  namespace: kong
+spec:
+  ports:
+    - protocol: TCP
+      port: 1337
+      targetPort: 1337
+  selector:
+    app: konga
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: konga
+  namespace: kong
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: konga
+  template:
+    metadata:
+      labels:
+        app: konga
+    spec:
+      containers:
+      - name: konga
+        image: pantsel/konga
+        env:
+        - name: DB_ADAPTER
+          value: postgres
+        - name: DB_HOST
+          value: postgres
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_USER
+          value: kong
+        - name: DB_PASSWORD
+          value: kong
+        - name: DB_DATABASE
+          value: konga
+        - name: DB_PG_SCHEMA
+          value: konga
+        ports:
+        - name: web
+          containerPort: 1337
+          protocol: TCP

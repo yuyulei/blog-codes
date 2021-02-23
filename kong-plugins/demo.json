@@ -1,0 +1,43 @@
+{
+  "created_at": 1609393183,
+  "id": "e23cde85-7954-4625-98ec-d8cc5cb5856a",
+  "tags": null,
+  "enabled": true,
+  "protocols": [
+    "grpc",
+    "grpcs",
+    "http",
+    "https"
+  ],
+  "name": "proxy-cache",
+  "consumer": null,
+  "service": null,
+  "route": {
+    "id": "35964017-7c19-4a84-b162-769130a7faa9"
+  },
+  "config": {
+    "request_method": [
+      "GET"
+    ],
+    "cache_control": false,
+    "vary_query_params": null,
+    "storage_ttl": null,
+    "response_code": [
+      200,
+      404
+    ],
+    "cache_ttl": 3600,
+    "vary_headers": null,
+    "strategy": "memory",
+    "content_type": [
+      "text/plain",
+      "application/json",
+      "text/plain; charset=UTF-8",
+      "application/json; charset=UTF-8",
+      "image/png"
+    ],
+    "memory": {
+      "dictionary_name": "kong_db_cache"
+    }
+  }
+}

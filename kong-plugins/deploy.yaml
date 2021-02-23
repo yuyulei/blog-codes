@@ -1,0 +1,27 @@
+      - env:
+        - name: KONG_PLUGINS
+          value: bundled,caoliao-identity,caoliao-terminating,caoliao-prometheus
+        - name: KONG_LUA_PACKAGE_PATH
+          value: /opt/?.lua;;
+
+        volumeMounts:
+        - mountPath: /opt/kong/plugins/caoliao-prometheus
+          name: kong-plugin-caoliao-prometheus
+        - mountPath: /opt/kong/plugins/caoliao-identity
+          name: kong-plugin-caoliao-identity
+        - mountPath: /opt/kong/plugins/caoliao-terminating
+          name: kong-plugin-caoliao-terminating
+
+      volumes:
+        - configMap:
+            defaultMode: 420
+            name: kong-plugin-caoliao-identity
+          name: kong-plugin-caoliao-identity
+        - configMap:
+            defaultMode: 420
+            name: kong-plugin-caoliao-terminating
+          name: kong-plugin-caoliao-terminating
+        - configMap:
+            defaultMode: 420
+            name: kong-plugin-caoliao-prometheus
+          name: kong-plugin-caoliao-prometheus
